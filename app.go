@@ -17,7 +17,6 @@ type App struct {
 	DB     *sql.DB
 }
 
-
 // Initialize is ...
 func (app *App) Initialize(user, password, dbname string) {
 	// connectionString := fmt.Sprintf(
@@ -26,9 +25,8 @@ func (app *App) Initialize(user, password, dbname string) {
 	// 	password,
 	// 	dbname)
 
-
 	var err error
-	app.DB, err = sql.Open("postgres", "user=postgres password=password dbname=golang-server sslmode=disable")
+	app.DB, err = sql.Open("postgres", "user=postgres password=password dbname=postgres sslmode=disable")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -102,7 +100,6 @@ func (app *App) getProducts(w http.ResponseWriter, r *http.Request) {
 		respondWithError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
-
 
 	respondWithJSON(w, http.StatusOK, products)
 }
