@@ -33,11 +33,9 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Connect to PostgreSQL
-        # Runs a script that creates a PostgreSQL client, populates
-        # the client with data, and retrieves data
+
         run: go test -v ./... 
-        # Environment variable used by the `client.js` script to create a new PostgreSQL client.
         with:
-            APP_DB_USERNAME: postgres
-            APP_DB_PASSWORD: password
-            APP_DB_NAME: postgres
+          APP_DB_USERNAME: postgres
+          APP_DB_PASSWORD: password
+          APP_DB_NAME: postgres
