@@ -3,13 +3,13 @@ package go_server
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"strconv"
 	"testing"
-	"fmt"
 
 	"github.com/joho/godotenv"
 )
@@ -29,7 +29,6 @@ func TestMain(m *testing.M) {
 	)
 
 	ensureTableExists()
-	clearTable()
 	code := m.Run()
 	clearTable()
 	os.Exit(code)
@@ -43,7 +42,7 @@ func ensureTableExists() {
 
 func clearTable() {
 	a.DB.Exec("DELETE FROM products")
-    a.DB.Exec("ALTER SEQUENCE products_id_seq RESTART WITH 1")
+	a.DB.Exec("ALTER SEQUENCE products_id_seq RESTART WITH 1")
 }
 
 const tableCreationQuery = `CREATE TABLE IF NOT EXISTS products
@@ -53,7 +52,6 @@ const tableCreationQuery = `CREATE TABLE IF NOT EXISTS products
     price NUMERIC(10,2) NOT NULL DEFAULT 0.00,
     CONSTRAINT products_pkey PRIMARY KEY (id)
 )`
-
 
 func TestEmptyTable(t *testing.T) {
 	clearTable()
