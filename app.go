@@ -26,7 +26,7 @@ func (app *App) Initialize(user, password, dbname string) {
 	// 	dbname)
 
 	var err error
-	app.DB, err = sql.Open("postgres", "user=postgres password=password dbname=postgres sslmode=disable")
+	app.DB, err = sql.Open("postgres", "user=postgres password=password dbname=golang-server sslmode=disable")
 	if err != nil {
 		log.Fatal(err)
 	}
