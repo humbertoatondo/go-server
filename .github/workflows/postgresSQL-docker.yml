@@ -26,30 +26,34 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-  steps:
-    # Downloads a copy of the code in your repository before running CI tests
-    - name: Check out repository code
-      uses: actions/checkout@v2
 
-    - name: Make envfile
-      uses: SpicyPizza/create-envfile@v1
-      with:
-        APP_DB_USERNAME: "postgres"
-        APP_DB_PASSWORD: "password"
-        APP_DB_NAME: "postgres"
-        file_name: .env
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Downloads a copy of the code in your repository before running CI tests
+      - name: Check out repository code
+        uses: actions/checkout@v2
 
-    - name: Set up Go
-      uses: actions/setup-go@v2
-      with:
-        go-version: 1.15
+      - name: Make envfile
+        uses: SpicyPizza/create-envfile@v1
+        with:
+          APP_DB_USERNAME: "postgres"
+          APP_DB_PASSWORD: "password"
+          APP_DB_NAME: "postgres"
+          file_name: .env
 
-    - name: Test
-      run: go test -v ./...
-      env:
-        APP_DB_USERNAME: postgres
-        APP_DB_PASSWORD: password
-        APP_DB_NAME: postgres
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.15
+
+      - name: Test
+        run: go test -v ./...
+        env:
+          APP_DB_USERNAME: postgres
+          APP_DB_PASSWORD: password
+          APP_DB_NAME: postgres
+
     # steps:
     #   # Downloads a copy of the code in your repository before running CI tests
     #   - name: Check out repository code
