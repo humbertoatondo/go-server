@@ -1,5 +1,9 @@
 name: PostgreSQL service example
-on: push
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
 
 jobs:
   # Service containers to run with `container-job`
@@ -48,7 +52,7 @@ jobs:
 
       - name: Test
         run: go test -v ./...
-        # env:
-        #   APP_DB_USERNAME: postgres
-        #   APP_DB_PASSWORD: password
-        #   APP_DB_NAME: postgres
+        env:
+          APP_DB_USERNAME: postgres
+          APP_DB_PASSWORD: password
+          APP_DB_NAME: postgres
