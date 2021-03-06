@@ -32,6 +32,13 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v2
 
+      - name: Test
+        run: go test -v ./...
+        env:
+          APP_DB_USERNAME: "postgres"
+          APP_DB_PASSWORD: "password"
+          APP_DB_NAME: "postgres"
+
 
     #   - name: Connect to PostgreSQL
     #     uses: go-server/create-envfile@1
@@ -50,7 +57,3 @@ jobs:
           APP_DB_PASSWORD: "password"
           APP_DB_NAME: "postgres"
           file_name: .env
-
-  steps:
-    - name: Test
-      uses: go test -v ./...
