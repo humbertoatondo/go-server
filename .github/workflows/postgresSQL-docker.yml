@@ -48,12 +48,12 @@ jobs:
           file_name: .env
 
       - name: Create env file
-        run: >-
-          --touch .env
-          --echo APP_DB_USERNAME: "postgres" >> .env
-          --echo APP_DB_PASSWORD: "password" >> .env
-          --echo APP_DB_NAME: "golang-server" >> .env
-          --echo APP_DB_HOST: "postgres" >> .env
+        run: |
+          touch .env
+          echo APP_DB_USERNAME: "postgres" >> .env
+          echo APP_DB_PASSWORD: "password" >> .env
+          echo APP_DB_NAME: "golang-server" >> .env
+          echo APP_DB_HOST: "postgres" >> .env
 
       - name: Set up Go
         uses: actions/setup-go@v2
