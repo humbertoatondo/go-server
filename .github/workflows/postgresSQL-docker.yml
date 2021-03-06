@@ -2,6 +2,18 @@ name: PostgreSQL service example
 on: push
 
 jobs:
+    create-envfile:
+
+        runs-on: ubuntu-latest
+          
+        steps:
+        - name: Make envfile
+          uses: go-server/create-envfile@v1
+          with:
+            APP_DB_USERNAME: postgres
+            APP_DB_PASSWORD: password
+            APP_DB_NAME: postgres
+            file_name: .env
   # Label of the container job
   container-job:
     # Containers must run in Linux based operating systems
@@ -26,20 +38,6 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-
-
-    create-envfile:
-
-      runs-on: ubuntu-18.04
-        
-      steps:
-      - name: Make envfile
-        uses: go-server/create-envfile@v1
-        with:
-          APP_DB_USERNAME: postgres
-          APP_DB_PASSWORD: password
-          APP_DB_NAME: postgres
-          file_name: .env
 
     steps:
       # Downloads a copy of the code in your repository before running CI tests
