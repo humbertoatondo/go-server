@@ -2,18 +2,6 @@ name: PostgreSQL service example
 on: push
 
 jobs:
-  create-envfile:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Make envfile
-        uses: SpicyPizza/create-envfile@v1
-        with:
-          APP_DB_USERNAME: "postgres"
-          APP_DB_PASSWORD: "password"
-          APP_DB_NAME: "postgres"
-          file_name: .env
-
   # Label of the container job
   container-job:
     # Containers must run in Linux based operating systems
@@ -44,9 +32,21 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v2
 
+
     #   - name: Connect to PostgreSQL
     #     uses: go-server/create-envfile@1
     #     with:
     #       APP_DB_USERNAME: postgres
     #       APP_DB_PASSWORD: password
     #       APP_DB_NAME: postgres
+  create-envfile:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Make envfile
+        uses: SpicyPizza/create-envfile@v1
+        with:
+          APP_DB_USERNAME: "postgres"
+          APP_DB_PASSWORD: "password"
+          APP_DB_NAME: "postgres"
+          file_name: .env
