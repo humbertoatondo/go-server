@@ -33,8 +33,6 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Connect to PostgreSQL
-
-        run: go test -v ./...
         uses: go-server/create-envfile@1
         with:
           APP_DB_USERNAME: postgres
