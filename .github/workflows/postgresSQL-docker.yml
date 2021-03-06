@@ -38,15 +38,6 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v2
 
-      - name: Make envfile
-        uses: SpicyPizza/create-envfile@v1
-        with:
-          APP_DB_USERNAME: "postgres"
-          APP_DB_PASSWORD: "password"
-          APP_DB_NAME: "golang-server"
-          directory: ./
-          file_name: .env
-
       - name: Set up Go
         uses: actions/setup-go@v2
         with:
@@ -61,4 +52,7 @@ jobs:
           APP_DB_USERNAME: postgres
           APP_DB_PASSWORD: password
           APP_DB_NAME: golang-server
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: golang-server
           POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }}
