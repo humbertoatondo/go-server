@@ -9,6 +9,7 @@ import (
 	"os"
 	"strconv"
 	"testing"
+	"fmt"
 
 	"github.com/joho/godotenv"
 )
@@ -28,6 +29,7 @@ func TestMain(m *testing.M) {
 	)
 
 	ensureTableExists()
+	clearTable()
 	code := m.Run()
 	clearTable()
 	os.Exit(code)
@@ -41,16 +43,17 @@ func ensureTableExists() {
 
 func clearTable() {
 	a.DB.Exec("DELETE FROM products")
-	a.DB.Exec("ALTER SEQUENCE products_id_seq RESTART WITH 1")
+    a.DB.Exec("ALTER SEQUENCE products_id_seq RESTART WITH 1")
 }
 
 const tableCreationQuery = `CREATE TABLE IF NOT EXISTS products
 (
-	id SERIAL,
-	name TEXT NOT NULL,
-	price NUMERIC(10, 2) NOT NULL DEFAULT 0.00,
-	CONSTRAINT products_pkey PRIMARY KEY (id)	
+    id SERIAL,
+    name TEXT NOT NULL,
+    price NUMERIC(10,2) NOT NULL DEFAULT 0.00,
+    CONSTRAINT products_pkey PRIMARY KEY (id)
 )`
+
 
 func TestEmptyTable(t *testing.T) {
 	clearTable()
@@ -61,7 +64,7 @@ func TestEmptyTable(t *testing.T) {
 	checkResponseCode(t, http.StatusOK, response.Code)
 
 	if body := response.Body.String(); body != "[]" {
-		t.Errorf("Expected an emtpy array. Got %s", body)
+		t.Errorf("Expected an empty array. Got %s", body)
 	}
 }
 
@@ -96,11 +99,7 @@ func TestGetNonExistentProduct(t *testing.T) {
 func TestCreateProduct(t *testing.T) {
 	clearTable()
 
-	var jsonStr = []byte(
-		`{
-			"name": "test product",
-			"price": 11.22
-		}`)
+	var jsonStr = []byte(`{"name":"test product", "price": 11.22}`)
 	req, _ := http.NewRequest("POST", "/product", bytes.NewBuffer(jsonStr))
 	req.Header.Set("Content-Type", "application/json")
 
@@ -109,6 +108,8 @@ func TestCreateProduct(t *testing.T) {
 
 	var m map[string]interface{}
 	json.Unmarshal(response.Body.Bytes(), &m)
+
+	fmt.Println(m)
 
 	if m["name"] != "test product" {
 		t.Errorf("Expected product nmae to be 'test product'. Got %v", m["name"])
@@ -141,7 +142,7 @@ func addProducts(count int) {
 	}
 
 	for i := 0; i < count; i++ {
-		a.DB.Exec("INSERT INTO products(name, price) VALEUS($1, $2)", "Product "+strconv.Itoa(i), (i+1.0)*10)
+		a.DB.Exec("INSERT INTO products(name, price) VALUES($1, $2)", "Product "+strconv.Itoa(i), (i+1.0)*10)
 	}
 }
 

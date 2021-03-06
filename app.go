@@ -3,7 +3,6 @@ package main
 import (
 	"database/sql"
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -18,16 +17,18 @@ type App struct {
 	DB     *sql.DB
 }
 
+
 // Initialize is ...
 func (app *App) Initialize(user, password, dbname string) {
-	connectionString := fmt.Sprintf(
-		"user=%s password=%s dbname=%s sslmode=disable",
-		user,
-		password,
-		dbname)
+	// connectionString := fmt.Sprintf(
+	// 	"user=%s password=%s dbname=%s sslmode=disable",
+	// 	user,
+	// 	password,
+	// 	dbname)
+
 
 	var err error
-	app.DB, err = sql.Open("postgres", connectionString)
+	app.DB, err = sql.Open("postgres", "user=postgres password=password dbname=golang-server sslmode=disable")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -39,7 +40,7 @@ func (app *App) Initialize(user, password, dbname string) {
 
 // Run is ...
 func (app *App) Run(addr string) {
-	log.Fatal(http.ListenAndServe(":8080", app.Router))
+	log.Fatal(http.ListenAndServe(addr, app.Router))
 }
 
 func (app *App) initializeRoutes() {
@@ -102,6 +103,7 @@ func (app *App) getProducts(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+
 	respondWithJSON(w, http.StatusOK, products)
 }
 
@@ -109,6 +111,13 @@ func (app *App) createProduct(w http.ResponseWriter, r *http.Request) {
 	var p product
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&p); err != nil {
+		respondWithError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	defer r.Body.Close()
+
+	if err := p.createProduct(app.DB); err != nil {
 		respondWithError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
