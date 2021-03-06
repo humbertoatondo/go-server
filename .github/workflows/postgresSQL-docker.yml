@@ -48,7 +48,7 @@ jobs:
           file_name: .env
 
       - name: Create env file
-          run: |
+          run: \|
             touch .env
             echo APP_DB_USERNAME: "postgres"
             APP_DB_PASSWORD: "password"
