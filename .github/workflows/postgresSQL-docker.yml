@@ -53,7 +53,7 @@ jobs:
 
       - name: Test
         run: go test -v ./...
-        # env:
-        #   APP_DB_USERNAME: postgres
-        #   APP_DB_PASSWORD: password
-        #   APP_DB_NAME: golang-server
+        env:
+          APP_DB_USERNAME: postgres
+          APP_DB_PASSWORD: password
+          APP_DB_NAME: golang-server
