@@ -21,7 +21,7 @@ type App struct {
 // Initialize is ...
 func (app *App) Initialize(user, password, dbname string) {
 	connectionString := fmt.Sprintf(
-		"user=%s password=%s dbname=%s sslmode=disable",
+		"host=postgres user=%s password=%s dbname=%s sslmode=disable",
 		user,
 		password,
 		dbname)
