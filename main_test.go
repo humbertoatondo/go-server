@@ -3,7 +3,6 @@ package main
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 	"net/http/httptest"
@@ -58,9 +57,6 @@ func TestEmptyTable(t *testing.T) {
 
 	req, _ := http.NewRequest("GET", "/products", nil)
 	response := executeRequest(req)
-
-	fmt.Println(req)
-	fmt.Println(response)
 
 	checkResponseCode(t, http.StatusOK, response.Code)
 
