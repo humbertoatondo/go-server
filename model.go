@@ -1,4 +1,4 @@
-package go_server
+package main
 
 import (
 	"database/sql"
@@ -30,8 +30,8 @@ func (p *product) deleteProduct(db *sql.DB) error {
 
 func (p *product) createProduct(db *sql.DB) error {
 	err := db.QueryRow(
-        "INSERT INTO products(name, price) VALUES($1, $2) RETURNING id",
-        p.Name, p.Price).Scan(&p.ID)
+		"INSERT INTO products(name, price) VALUES($1, $2) RETURNING id",
+		p.Name, p.Price).Scan(&p.ID)
 
 	if err != nil {
 		return err

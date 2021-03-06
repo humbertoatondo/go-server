@@ -1,8 +1,9 @@
-package go_server
+package main
 
 import (
 	"database/sql"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -19,14 +20,16 @@ type App struct {
 
 // Initialize is ...
 func (app *App) Initialize(user, password, dbname string) {
-	// connectionString := fmt.Sprintf(
-	// 	"user=%s password=%s dbname=%s sslmode=disable",
-	// 	user,
-	// 	password,
-	// 	dbname)
+	connectionString := fmt.Sprintf(
+		"user=%s password=%s dbname=%s sslmode=disable",
+		user,
+		password,
+		dbname)
+
+	fmt.Println(connectionString)
 
 	var err error
-	app.DB, err = sql.Open("postgres", "user=postgres password=password dbname=golang-server sslmode=disable")
+	app.DB, err = sql.Open("postgres", connectionString)
 	if err != nil {
 		log.Fatal(err)
 	}

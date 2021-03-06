@@ -1,8 +1,17 @@
-package go_server
+package main
 
-import "os"
+import (
+	"log"
+	"os"
+
+	"github.com/joho/godotenv"
+)
 
 func main() {
+	if err := godotenv.Load(".env"); err != nil {
+		log.Fatalf("Error laoding .env file")
+	}
+
 	app := App{}
 	app.Initialize(
 		os.Getenv("APP_DB_USERNAME"),
