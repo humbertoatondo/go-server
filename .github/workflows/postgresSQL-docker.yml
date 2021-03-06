@@ -40,7 +40,7 @@ jobs:
           APP_DB_USERNAME: "postgres"
           APP_DB_PASSWORD: "password"
           APP_DB_NAME: "golang-server"
-          directory: /
+          directory: ./
           file_name: .env
 
       - name: Set up Go
