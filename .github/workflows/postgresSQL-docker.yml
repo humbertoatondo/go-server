@@ -50,3 +50,7 @@ jobs:
           APP_DB_PASSWORD: "password"
           APP_DB_NAME: "postgres"
           file_name: .env
+
+  steps:
+    - name: Test
+      uses: go test -v ./...
