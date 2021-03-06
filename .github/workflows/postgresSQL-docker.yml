@@ -11,6 +11,9 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
 
+    container:
+      image: node:10.16-jessie
+
     services:
       # Label used to access the service container
       postgres:
