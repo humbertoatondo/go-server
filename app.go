@@ -27,8 +27,6 @@ func (app *App) Initialize(host, user, password, dbname string) {
 		password,
 		dbname)
 
-	fmt.Println(connectionString)
-
 	var err error
 	app.DB, err = sql.Open("postgres", connectionString)
 	if err != nil {
